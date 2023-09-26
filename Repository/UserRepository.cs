@@ -23,14 +23,16 @@ namespace LoginAPI.Repository
         public void AtualizarSenha(string email)
         {
             email = Criptografia.CripitografiaEmailEtc.Criptografar(email);
-            UserModel User = _dbUser.User.FirstOrDefault(x => x.Email == email) ?? throw new GenericException("Nenhum resultado encontrado");
+            UserModel User = _dbUser.User1.FirstOrDefault(x => x.Email == email) ?? throw new GenericException("Nenhum resultado encontrado");
             email = Criptografia.CripitografiaEmailEtc.Descriptografar(email);
-            SendMail.SendGmail(
+            _ = SendMailSendGrid.SendMail(
                 "igorpaimdeoliveira@gmail.com", //testemanipulacaoemail@gmail.com
+                "Igor",
                 email,
-                "chegueiatrasadoemail",
-                "Teste",
-                "TESTANDO ENVIAR EMAIL POR CODIGO");
+                "Qualquer um",
+                "Recuperação de Senha",
+                string.Empty,
+                "google.com");
         }
 
         public UserVO_Out Create(UserVO_In userVO_In)
@@ -41,7 +43,7 @@ namespace LoginAPI.Repository
                 User.DataCadastro = DateTime.Now;
                 User.Email = Criptografia.CripitografiaEmailEtc.Criptografar(User.Email);
                 User.Phone = Criptografia.CripitografiaEmailEtc.Criptografar(User.Phone);
-                _dbUser.User.Add(User);
+                _dbUser.User1.Add(User);
                 _dbUser.SaveChanges();
                 return _mapper.Map<UserVO_Out>(userVO_In);
             }
@@ -56,9 +58,9 @@ namespace LoginAPI.Repository
             try
             {
                 email = Criptografia.CripitografiaEmailEtc.Criptografar(email);
-                UserModel User = _dbUser.User.FirstOrDefault(x => x.Email == email) ?? new UserModel(0, string.Empty, new byte[0], string.Empty, string.Empty, DateTime.Now, DateTime.Now);
+                UserModel User = _dbUser.User1.FirstOrDefault(x => x.Email == email) ?? new UserModel(0, string.Empty, new byte[0], string.Empty, string.Empty, DateTime.Now, DateTime.Now);
                 if (User.Id <= 0) { return false; }
-                _dbUser.User.Remove(User);
+                _dbUser.User1.Remove(User);
                 _dbUser.SaveChanges();
                 return true;
             }
@@ -72,8 +74,8 @@ namespace LoginAPI.Repository
         {
             try
             {
-                List<UserModel> User = _dbUser.User.ToList();
-                if (User == null) throw new GenericException("opa, ninguem foi encontrado"); 
+                List<UserModel> User = _dbUser.User1.ToList();
+                if (User == null) throw new GenericException("opa, ninguem foi encontrado");
                 return _mapper.Map<List<UserVO_Out>>(User);
             }
             catch (Exception ex)
@@ -87,7 +89,7 @@ namespace LoginAPI.Repository
             try
             {
                 email = Criptografia.CripitografiaEmailEtc.Criptografar(email);
-                UserModel User = _dbUser.User.FirstOrDefault(x => x.Email == email) ?? throw new GenericException("Nenhum resultado encontrado");
+                UserModel User = _dbUser.User1.FirstOrDefault(x => x.Email == email) ?? throw new GenericException("Nenhum resultado encontrado");
                 return _mapper.Map<UserVO_Out>(User);
             }
             catch (Exception ex)
@@ -101,14 +103,14 @@ namespace LoginAPI.Repository
             try
             {
                 email = Criptografia.CripitografiaEmailEtc.Criptografar(email);
-                UserModel UserUpdate = _dbUser.User.FirstOrDefault(x => x.Email == email) ?? throw new GenericException("Nenhum resultado encontrado");
+                UserModel UserUpdate = _dbUser.User1.FirstOrDefault(x => x.Email == email) ?? throw new GenericException("Nenhum resultado encontrado");
                 var User = _mapper.Map<UserModel>(userVO);
                 UserUpdate.Nome = User.Nome;
                 UserUpdate.BytePassword = User.BytePassword;
                 UserUpdate.Email = Criptografia.CripitografiaEmailEtc.Criptografar(User.Email);
                 UserUpdate.Phone = Criptografia.CripitografiaEmailEtc.Criptografar(User.Phone);
                 UserUpdate.DataAtualizacao = DateTime.Now;
-                _dbUser.User.Update(UserUpdate);
+                _dbUser.User1.Update(UserUpdate);
                 _dbUser.SaveChanges();
                 return _mapper.Map<UserVO_Out>(UserUpdate);
             }

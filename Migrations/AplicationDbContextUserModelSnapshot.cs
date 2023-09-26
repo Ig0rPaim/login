@@ -54,15 +54,15 @@ namespace LoginAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("User1");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
                             BytePassword = new byte[] { 91, 170, 97, 228, 201, 185, 63, 63, 6, 130, 37, 11, 108, 248, 51, 27, 126, 230, 143, 216 },
-                            DataCadastro = new DateTime(2023, 9, 22, 16, 2, 2, 661, DateTimeKind.Local).AddTicks(3697),
-                            Email = "TmHzDJPfm9p1-01qxKwSouR4HZx0TBCPlkXPgpft14=",
+                            DataCadastro = new DateTime(2023, 9, 26, 15, 6, 33, 518, DateTimeKind.Local).AddTicks(6457),
+                            Email = "TmHzDJPfm9p1-01qxKwSouR4HZx0_TBCPlkXPgpft14=",
                             Nome = "Igor Paim de Oliveira",
                             Phone = "yXEftoqMqKFkBvRF8e70wg=="
                         },
@@ -70,7 +70,7 @@ namespace LoginAPI.Migrations
                         {
                             Id = 2,
                             BytePassword = new byte[] { 91, 170, 97, 228, 201, 185, 63, 63, 6, 130, 37, 11, 108, 248, 51, 27, 126, 230, 143, 216 },
-                            DataCadastro = new DateTime(2023, 9, 22, 16, 2, 2, 661, DateTimeKind.Local).AddTicks(3816),
+                            DataCadastro = new DateTime(2023, 9, 26, 15, 6, 33, 518, DateTimeKind.Local).AddTicks(6680),
                             Email = "Q4k2z1GBf0EiIe4HDqvoxU9i8Bz99ls2g-ZfGPwJJXU=",
                             Nome = "Rogerio Oliveira",
                             Phone = "yXEftoqMqKFkBvRF8e70wg=="
@@ -79,7 +79,7 @@ namespace LoginAPI.Migrations
                         {
                             Id = 3,
                             BytePassword = new byte[] { 91, 170, 97, 228, 201, 185, 63, 63, 6, 130, 37, 11, 108, 248, 51, 27, 126, 230, 143, 216 },
-                            DataCadastro = new DateTime(2023, 9, 22, 16, 2, 2, 661, DateTimeKind.Local).AddTicks(3883),
+                            DataCadastro = new DateTime(2023, 9, 26, 15, 6, 33, 518, DateTimeKind.Local).AddTicks(6783),
                             Email = "okT5XkZMOtsvuzc8K7U3SqbLj91xB8yaEDk512BhBMA=",
                             Nome = "Magno Paim",
                             Phone = "yXEftoqMqKFkBvRF8e70wg=="

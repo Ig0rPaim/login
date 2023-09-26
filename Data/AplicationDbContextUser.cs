@@ -6,7 +6,7 @@ namespace LoginAPI.Data
 {
     public class AplicationDbContextUser : DbContext
     {
-        public DbSet<UserModel> User { get; set; }
+        public DbSet<UserModel> User1 { get; set; }
 
         public AplicationDbContextUser(DbContextOptions<AplicationDbContextUser> context) : base(context)
         {

@@ -3,7 +3,7 @@ using System.Text;
 
 namespace LoginAPI.Criptografia
 {
-    public class CripitografiaEmailEtc
+    public static class CripitografiaEmailEtc
     {
         /// <summary>
         /// Vetor de bytes utilizados para a criptografia (Chave Externa)
