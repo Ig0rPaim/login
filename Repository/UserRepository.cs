@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
+using LoginAPI.Config.Mapping;
 using LoginAPI.Data;
 using LoginAPI.Exceptions;
 using LoginAPI.Models;
-using LoginAPI.Services;
+using LoginAPI.Services.SendMail;
 using LoginAPI.ValuesObjects;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
@@ -13,26 +14,38 @@ namespace LoginAPI.Repository
     {
         private readonly AplicationDbContextUser _dbUser;
         private readonly IMapper _mapper;
+        //private readonly MappingConfig.Retorno_Out() _mapperConfig;
 
         public UserRepository(AplicationDbContextUser dbUser, IMapper mapper)
         {
             _dbUser = dbUser;
             _mapper = mapper;
+            //_mapperConfig = mapperConfig;
+
         }
 
-        public void AtualizarSenha(string email)
+        public bool AtualizarSenha(string email)
         {
-            email = Criptografia.CripitografiaEmailEtc.Criptografar(email);
-            UserModel User = _dbUser.User1.FirstOrDefault(x => x.Email == email) ?? throw new GenericException("Nenhum resultado encontrado");
-            email = Criptografia.CripitografiaEmailEtc.Descriptografar(email);
-            _ = SendMailSendGrid.SendMail(
-                "igorpaimdeoliveira@gmail.com", //testemanipulacaoemail@gmail.com
-                "Igor",
-                email,
-                "Qualquer um",
-                "Recuperação de Senha",
-                string.Empty,
-                "google.com");
+            try
+            {
+                email = Criptografia.CripitografiaEmailEtc.Criptografar(email);
+                UserModel User = _dbUser.User1.FirstOrDefault(x => x.Email == email) ?? throw new GenericException("Nenhum resultado encontrado");
+                email = Criptografia.CripitografiaEmailEtc.Descriptografar(email);
+                _ = SendMailSendGrid.SendMail(
+                    "igorpaimdeoliveira@gmail.com", //testemanipulacaoemail@gmail.com
+                    "Igor",
+                    email,
+                    "Qualquer um",
+                    "Recuperação de Senha",
+                    string.Empty,
+                    "google.com");
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
         }
 
         public UserVO_Out Create(UserVO_In userVO_In)
@@ -46,6 +59,7 @@ namespace LoginAPI.Repository
                 _dbUser.User1.Add(User);
                 _dbUser.SaveChanges();
                 return _mapper.Map<UserVO_Out>(userVO_In);
+                //return _mapper.Map<UserVO_Out>(userVO_In);
             }
             catch (Exception ex)
             {
@@ -58,7 +72,7 @@ namespace LoginAPI.Repository
             try
             {
                 email = Criptografia.CripitografiaEmailEtc.Criptografar(email);
-                UserModel User = _dbUser.User1.FirstOrDefault(x => x.Email == email) ?? new UserModel(0, string.Empty, new byte[0], string.Empty, string.Empty, DateTime.Now, DateTime.Now);
+                UserModel User = _dbUser.User1.FirstOrDefault(x => x.Email == email) ?? new UserModel(0, string.Empty, new byte[0], string.Empty, string.Empty, DateTime.Now, DateTime.Now, "defalt");
                 if (User.Id <= 0) { return false; }
                 _dbUser.User1.Remove(User);
                 _dbUser.SaveChanges();
@@ -76,7 +90,13 @@ namespace LoginAPI.Repository
             {
                 List<UserModel> User = _dbUser.User1.ToList();
                 if (User == null) throw new GenericException("opa, ninguem foi encontrado");
-                return _mapper.Map<List<UserVO_Out>>(User);
+                List<UserVO_Out> userOut = new List<UserVO_Out>(); 
+                foreach (UserModel user1 in User)
+                {
+                     userOut.Add(MappingConfig.Retorno_Out(user1));
+                }
+                return userOut;
+                //return _mapper.Map <List<UserVO_Out>>(User);
             }
             catch (Exception ex)
             {
@@ -90,7 +110,8 @@ namespace LoginAPI.Repository
             {
                 email = Criptografia.CripitografiaEmailEtc.Criptografar(email);
                 UserModel User = _dbUser.User1.FirstOrDefault(x => x.Email == email) ?? throw new GenericException("Nenhum resultado encontrado");
-                return _mapper.Map<UserVO_Out>(User);
+                return MappingConfig.Retorno_Out(User);
+                //return _mapper.Map<UserVO_Out>(User);
             }
             catch (Exception ex)
             {
@@ -112,7 +133,8 @@ namespace LoginAPI.Repository
                 UserUpdate.DataAtualizacao = DateTime.Now;
                 _dbUser.User1.Update(UserUpdate);
                 _dbUser.SaveChanges();
-                return _mapper.Map<UserVO_Out>(UserUpdate);
+                return MappingConfig.Retorno_Out(UserUpdate);
+                //return _mapper.Map<UserVO_Out>(UserUpdate);
             }
             catch(Exception ex) 
             {

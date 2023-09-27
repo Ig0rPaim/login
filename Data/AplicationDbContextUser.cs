@@ -32,6 +32,7 @@ namespace LoginAPI.Data
                 Phone = Criptografia.CripitografiaEmailEtc.Criptografar("71999434958"),
                 Email = Criptografia.CripitografiaEmailEtc.Criptografar("igorpaimdeoliveira@gmail.com"),
                 DataCadastro = DateTime.Now,
+                Role = "manager"
 
             });
 
@@ -43,6 +44,7 @@ namespace LoginAPI.Data
                 Phone = Criptografia.CripitografiaEmailEtc.Criptografar("71999434958"),
                 Email = Criptografia.CripitografiaEmailEtc.Criptografar("Rogeriodeoliveira@gmail.com"),
                 DataCadastro = DateTime.Now,
+                Role = "client"
 
             });
 
@@ -54,6 +56,7 @@ namespace LoginAPI.Data
                 Phone = Criptografia.CripitografiaEmailEtc.Criptografar("71999434958"),
                 Email = Criptografia.CripitografiaEmailEtc.Criptografar("Magnopaim@gmail.com"),
                 DataCadastro = DateTime.Now,
+                Role = "client"
 
             });
         }

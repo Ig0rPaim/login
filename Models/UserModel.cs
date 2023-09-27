@@ -25,6 +25,7 @@ namespace LoginAPI.Models
         public string Phone { get; set; }
         public DateTime DataCadastro { get; set; }
         public DateTime? DataAtualizacao { get; set; }
+        public string Role { get; set; }
 
         public UserModel()
         {
@@ -42,13 +43,14 @@ namespace LoginAPI.Models
         //    DataAtualizacao = dataAtualizacao;
         //}
 
-        public UserModel(int id, string nome, byte[] password, string email, string phone, DateTime dataCadastro, DateTime? dataAtualizacao)
+        public UserModel(int id, string nome, byte[] password, string email, string phone, DateTime dataCadastro, DateTime? dataAtualizacao, string role)
         {
             var contract = new Contract<UserModel>()
                 .IsNotNull(id, "Id", "Campo Id vazio")
                 .IsNotNullOrEmpty(nome, "Nome", "Campo nome vazio")
                 .IsNotNull(password, "Password", "Campo senha vazio")
                 .IsNotNullOrEmpty(phone, "Phone", "Campo telefone vazio")
+                .IsNotNullOrEmpty(role, "Role", "Campo Cargo vazio")
                 .IsEmailOrEmpty(email, "Email", "Campo email vazio ou invalido");
             AddNotifications(contract);
 
@@ -59,6 +61,7 @@ namespace LoginAPI.Models
             Phone = phone;
             DataCadastro = dataCadastro;
             DataAtualizacao = dataAtualizacao;
+            Role = role;
         }
     }
 }

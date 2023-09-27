@@ -1,7 +1,9 @@
 ﻿using LoginAPI.Exceptions;
 using LoginAPI.Models;
 using LoginAPI.Repository;
+using LoginAPI.Services.TokenServices;
 using LoginAPI.ValuesObjects;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -54,6 +56,7 @@ namespace LoginAPI.Controllers
         }
 
         [HttpPost("usuarios")]
+        [AllowAnonymous]
         public ActionResult Create([FromBody] UserVO_In UserVO)
         {
             try
@@ -62,7 +65,12 @@ namespace LoginAPI.Controllers
                 if (!UserVO.IsValid) { return BadRequest(UserVO.Notifications); }
 
                 var User = _usersRepository.Create(UserVO);
-                return Ok(User);
+                var token = GenerateToken.GenerateTokenJWT(UserVO);
+                return Ok(new
+                {
+                    user = User,
+                    token
+                });
             }
             catch (GenericException ex)
             {
@@ -71,6 +79,7 @@ namespace LoginAPI.Controllers
         }
 
         [HttpPut("usuarios/{email}")]
+        [Authorize (Roles = "manager")]
         public ActionResult Update([FromBody] UserVO_In UserVO, string email)
         {
             try
@@ -114,9 +123,10 @@ namespace LoginAPI.Controllers
         {
             try
             {
-                _usersRepository.AtualizarSenha(email);
-                return Ok();
-            }catch (Exception ex)
+                bool retorno = _usersRepository.AtualizarSenha(email);
+                return Ok(retorno);
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

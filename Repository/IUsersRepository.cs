@@ -9,6 +9,6 @@ namespace LoginAPI.Repository
         UserVO_Out Create(UserVO_In userVO);
         UserVO_Out Update(UserVO_In userVO, string email);
         bool Delete(string email);
-        void AtualizarSenha(string email);
+        bool AtualizarSenha(string email);
     }
 }

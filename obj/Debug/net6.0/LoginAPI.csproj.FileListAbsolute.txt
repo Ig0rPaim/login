@@ -182,3 +182,4 @@ C:\Users\ioliveira\Documents\microsservicos\BuilderAux\LoginAPI\bin\Debug\net6.0
 C:\Users\ioliveira\Documents\microsservicos\BuilderAux\LoginAPI\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\ioliveira\Documents\microsservicos\BuilderAux\LoginAPI\bin\Debug\net6.0\SendGrid.dll
 C:\Users\ioliveira\Documents\microsservicos\BuilderAux\LoginAPI\bin\Debug\net6.0\StarkbankEcdsa.dll
+C:\Users\ioliveira\Documents\microsservicos\BuilderAux\LoginAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

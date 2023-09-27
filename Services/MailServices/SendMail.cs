@@ -3,7 +3,7 @@ using System.Net;
 using System.Drawing;
 using System.Text;
 
-namespace LoginAPI.Services
+namespace LoginAPI.Services.SendMail
 {
     public static class SendMail
     {
@@ -15,7 +15,7 @@ namespace LoginAPI.Services
                 clienteSmtp.Port = 587; // Porta do servidor SMTP do Gmail
                 clienteSmtp.Credentials = new NetworkCredential(remetenteEmail, senha);
                 clienteSmtp.EnableSsl = true; // SSL para criptografar a conexão
-                
+
 
                 // Criar uma mensagem de email
                 MailMessage mensagem = new MailMessage(remetenteEmail, destinatarioEmail);

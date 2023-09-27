@@ -8,7 +8,7 @@ using SendGrid.Helpers.Mail;
 using System;
 using System.Threading.Tasks;
 
-namespace LoginAPI.Services
+namespace LoginAPI.Services.SendMail
 {
     public class SendMailSendGrid
     {
