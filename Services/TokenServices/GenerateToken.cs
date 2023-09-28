@@ -8,7 +8,7 @@ namespace LoginAPI.Services.TokenServices
 {
     public static class GenerateToken
     {
-        public static string GenerateTokenJWT(UserVO_In user)
+        public static string GenerateTokenJWT()
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(PrivateKey.Secret);

@@ -26,6 +26,7 @@ namespace LoginAPI.Models
         public DateTime DataCadastro { get; set; }
         public DateTime? DataAtualizacao { get; set; }
         public string Role { get; set; }
+        public string Token { get; set; }
 
         public UserModel()
         {

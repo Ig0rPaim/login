@@ -13,12 +13,13 @@ namespace LoginAPI.ValuesObjects
         public byte[] BytePassword { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+        public string Role { get; set; }
 
         //public UserVO_In()
         //{
 
         //}
-        public UserVO_In(string nome, string password, string email, string phone)
+        public UserVO_In(string nome, string password, string email, string phone, string role)
         {
             var contract = new Contract<UserVO_In>()
                 .Requires()
@@ -35,6 +36,7 @@ namespace LoginAPI.ValuesObjects
             BytePassword = Criptografia.Criptografy.getInByteArray(password);
             Email = email;
             Phone = phone;
+            Role = role;
         }
     }
 }

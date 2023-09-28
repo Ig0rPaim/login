@@ -20,6 +20,7 @@ namespace LoginAPI.Controllers
             _usersRepository = usersRepository ?? throw new ArgumentNullException(nameof(Repository));
         }
         [HttpGet("usuarios")]
+        [Authorize]
         public ActionResult GetAll()
         {
             try
@@ -38,6 +39,7 @@ namespace LoginAPI.Controllers
         }
 
         [HttpGet("usuarios/{email}")]
+        [Authorize]
         public ActionResult GetByEmail(string email)
         {
             try
@@ -65,7 +67,7 @@ namespace LoginAPI.Controllers
                 if (!UserVO.IsValid) { return BadRequest(UserVO.Notifications); }
 
                 var User = _usersRepository.Create(UserVO);
-                var token = GenerateToken.GenerateTokenJWT(UserVO);
+                var token = GenerateToken.GenerateTokenJWT();
                 return Ok(new
                 {
                     user = User,
@@ -79,7 +81,7 @@ namespace LoginAPI.Controllers
         }
 
         [HttpPut("usuarios/{email}")]
-        [Authorize (Roles = "manager")]
+        [Authorize]
         public ActionResult Update([FromBody] UserVO_In UserVO, string email)
         {
             try
@@ -93,6 +95,10 @@ namespace LoginAPI.Controllers
             {
                 return NotFound(ex.Message);
             }
+            catch (UnauthorizedAccessException ex)
+            {
+                return NotFound(ex.Message);
+            }
             catch(Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -100,6 +106,7 @@ namespace LoginAPI.Controllers
         }
 
         [HttpDelete("usuarios/{email}")]
+        [Authorize]
         public ActionResult Delete(string email)
         {
             try
@@ -119,6 +126,7 @@ namespace LoginAPI.Controllers
         }
 
         [HttpPatch("usuarios/{email}")]
+        [Authorize]
         public ActionResult AtualizarSenha(string email)
         {
             try
@@ -131,5 +139,6 @@ namespace LoginAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        
     }
 }

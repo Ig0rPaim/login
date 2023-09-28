@@ -4,6 +4,7 @@ using LoginAPI.Data;
 using LoginAPI.Exceptions;
 using LoginAPI.Models;
 using LoginAPI.Services.SendMail;
+using LoginAPI.Services.TokenServices;
 using LoginAPI.ValuesObjects;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
@@ -119,12 +120,21 @@ namespace LoginAPI.Repository
             }
         }
 
+        public string GetToken(string email)
+        {
+            email = Criptografia.CripitografiaEmailEtc.Criptografar(email);
+            UserModel userModel = _dbUser.User1.FirstOrDefault(x => x.Email == email) ?? throw new GenericException("Nenhum resultado encontrado");
+            //UserVO_In userVO_In = new(_mapper.Map<UserVO_In>(userModel));
+            return GenerateToken.GenerateTokenJWT();
+        }
+
         public UserVO_Out Update(UserVO_In userVO, string email)
         {
             try
             {
                 email = Criptografia.CripitografiaEmailEtc.Criptografar(email);
                 UserModel UserUpdate = _dbUser.User1.FirstOrDefault(x => x.Email == email) ?? throw new GenericException("Nenhum resultado encontrado");
+                if(UserUpdate.Role != "manager") { throw new UnauthorizedAccessException("recurso não Auorizado"); }
                 var User = _mapper.Map<UserModel>(userVO);
                 UserUpdate.Nome = User.Nome;
                 UserUpdate.BytePassword = User.BytePassword;
@@ -134,7 +144,6 @@ namespace LoginAPI.Repository
                 _dbUser.User1.Update(UserUpdate);
                 _dbUser.SaveChanges();
                 return MappingConfig.Retorno_Out(UserUpdate);
-                //return _mapper.Map<UserVO_Out>(UserUpdate);
             }
             catch(Exception ex) 
             {
